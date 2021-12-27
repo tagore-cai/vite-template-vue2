@@ -18,10 +18,7 @@ export default defineConfig({
   publicDir: 'public',
   base: './',
   mode: 'development',
-  optimizeDeps: {
-    // 要预构建的第三方依赖
-    include: [],
-  },
+  optimizeDeps: { include: [] },
   resolve: { alias: { '@': '/src' } },
   server: { port: 3001, cors: true },
   define: { 'process.env': process.env },
