@@ -10,4 +10,4 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class App extends Vue {}
 </script>
 
-<style lang="less" scoped></style>
+<style lang="scss" scoped></style>
