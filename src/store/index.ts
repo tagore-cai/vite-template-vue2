@@ -14,8 +14,5 @@ export interface IRootState {
 
 // Declare empty store first, dynamically register all modules later.
 export default new Vuex.Store<IRootState>({
-  modules: VStates.reduce((n: IRootState, i) => {
-    n[i.camelModuleName.split('/')[1]] = i.module;
-    return n;
-  }, {}),
+  modules: VStates.reduce((n: IRootState, i) => ((n[i.fileName] = i.module), n), {}),
 });

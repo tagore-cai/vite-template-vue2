@@ -9,7 +9,8 @@ declare global {
       [elem: string]: any;
     }
   }
-  interface ImportAllResult {
+  interface ImportItem {
+    fileName: string;
     moduleName: string;
     camelModuleName: string;
     module: any;

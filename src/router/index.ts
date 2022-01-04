@@ -2,23 +2,17 @@ import Vue from 'vue';
 import VueRouter, { RawLocation, RouteConfig } from 'vue-router';
 
 import { importAll } from '@/utils';
+import { ErrorHandler } from 'vue-router/types/router';
 
 const modules = import.meta.globEager('./modules/*.ts');
 
-console.log(111111);
-
 const VStates = importAll(modules);
-console.log(
-  VStates.reduce((n: RouteConfig[], i) => {
-    return n.concat(i.module);
-  }, []),
-);
 
 const routerPush: any = VueRouter.prototype.push;
-(VueRouter as any).prototype.push = function push(
+(VueRouter as Function).prototype.push = function push(
   location: RawLocation,
-  onResolve: any,
-  onReject: any,
+  onResolve: Function,
+  onReject: ErrorHandler,
 ) {
   if (onResolve || onReject) return routerPush.call(this, location, onResolve, onReject);
   return routerPush.call(this, location).catch((error: Error) => error);
@@ -28,14 +22,13 @@ export const constantRoutes: RouteConfig[] = VStates.reduce((n: RouteConfig[], i
   return n.concat(i.module);
 }, []);
 
-const createRouter = () =>
-  new VueRouter({
-    scrollBehavior: (to, from, savedPosition) => {
-      return savedPosition ? savedPosition : { x: 0, y: 0 };
-    },
+const createRouter = () => {
+  return new VueRouter({
+    scrollBehavior: (to, from, savedPosition) => (savedPosition ? savedPosition : { x: 0, y: 0 }),
     base: '',
     routes: constantRoutes,
   });
+};
 
 Vue.use(VueRouter);
 
